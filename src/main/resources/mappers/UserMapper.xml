@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<mapper namespace="com.hxx.mapper.UserMapper">
+
+    <select id="selectUserById" resultType="com.hxx.domain.TUser">
+        select * from t_user where id = #{id}
+    </select>
+
+    <select id="findById" resultType="com.hxx.domain.TUser">
+        select * from t_user where id = #{id}
+    </select>
+    <insert id="insertUser">
+        insert into t_user(username,sex,age) values (#{username},#{sex},#{age})
+    </insert>
+
+    <update id="updateUser">
+        update t_user set username=#{username},sex=#{sex},age=#{age} where id=#{id}
+    </update>
+
+    <delete id="deleteUser">
+        delete from t_user where id=#{id}
+    </delete>
+
+    <select id="findByPage" resultType="tUser">
+        select * from t_user limit #{start},#{pageSize}
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(*) from t_user
+    </select>
+
+    <resultMap id="selectEmployeeByRMResultMap" type="com.hxx.domain.Demo">
+
+        <!-- 使用id标签设置主键列和主键属性之间的对应关系 -->
+        <!-- column属性用于指定字段名；property属性用于指定Java实体类属性名 -->
+        <id column="emp_id" property="empId"/>
+
+        <!-- 使用result标签设置普通字段和Java实体类属性之间的关系 -->
+        <result column="emp_name" property="empName"/>
+
+        <result column="emp_sex" property="empSex"/>
+        <result column="emp_age" property="empAge"/>
+    </resultMap>
+
+    <select id="findAllEmp" resultMap="selectEmployeeByRMResultMap">
+        select id,emp_name,emp_sex,emp_age
+        from demo
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

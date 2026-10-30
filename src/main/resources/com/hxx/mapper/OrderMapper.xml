@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hxx.mapper.OrderMapper">
+
+    <resultMap id="ordersProducts" type="order">
+        <id property="id" column="id"/>
+        <result column="number" property="number"/>
+        <collection property="productList" column="id" ofType="product"
+                    select="com.hxx.mapper.ProductMapper.findByIdProduct">
+        </collection>
+    </resultMap>
+
+    <select id="findByIdOrder"  resultMap="ordersProducts">
+        select * from tb_orders where id=#{id}
+    </select>
+
+
+    <select id="findByIdOrder1" parameterType="int" resultMap="ordersProducts1">
+        select o.*,p.id as pid,p.name,p.price
+        from tb_orders o,tb_product p,tb_ordersitem  oi
+        WHERE oi.orders_id=o.id
+          and oi.product_id=p.id
+          and o.id=#{id}
+    </select>
+
+    <resultMap id="ordersProducts1" type="order">
+        <id property="id" column="id"/>
+        <result column="number" property="number"/>
+        <collection property="productList" ofType="product">
+            <id property="id" column="pid"/>
+            <result column="name" property="name"/>
+            <result property="price" column="price"/>
+        </collection>
+    </resultMap>
+
+</mapper>

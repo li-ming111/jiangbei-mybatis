@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hxx.mapper.UsersMapper">
+
+    <select id="findAllUsers" resultMap="findByOrders" parameterType="int">
+        select user1.username,order1.number from tb_user user1 join tb_orders order1
+              on user1.id=order1.user_id
+        where user1.id=#{id}
+    </select>
+    <resultMap id="findByOrders" type="users">
+        <id column="id" property="id"/>
+        <result property="username" column="username"/>
+        <collection property="ordersList"  ofType="orders">
+            <id property="id" column="id"/>
+            <result property="number" column="number"/>
+            <result property="userId" column="user_id"/>
+        </collection>
+    </resultMap>
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_user(username,address) values(#{username},#{address})
+    </insert>
+</mapper>
